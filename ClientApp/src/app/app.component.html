@@ -20,43 +20,18 @@
     <!-- goodList blade -->
     <ng-template [ngIf]='isVisibleGoodListBlade'>
       <div class="col my-3">
-        <ngx-blade [config]="bladeConfig" #goodListBlade>
-          <div class="blade-header" ngxBladeHeader>
-            <good-list-header style="width: 100%;" 
-              (newGoodCreating)='onGoodWasSelected($event)'
-              (goodsWasDeleted)='goodListComponent.onGoodsWasDeleted($event)'
-              [categoryId]='goodListComponent._selectedCategoryId | async'
-              [categoryName]='goodListComponent._selectedCategoryName | async'
-              #goodListHeader>
-            </good-list-header>
-          </div>
-          <div ngxBladeBody>
-            <good-list #goodlist 
-              (goodWasSelected)='onGoodWasSelected($event)'
-              (goodWasChecked)='goodListHeader.onWasGoodChecked($event)'
-              (categoryWasUpdated)='goodListHeader.onWasCategoryUpdated($event)'> 
-            </good-list>
-          </div>
-        </ngx-blade>
+          <good-list 
+          (goodWasSelected)='onGoodWasSelected($event)'
+          #goodlist></good-list>
       </div>
     </ng-template>
     <!-- editGood blade -->
     <ng-template [ngIf]='isVisibleEditGoodBlade'>
       <div class="col my-3">
-        <ngx-blade [config]="bladeConfig" #editGoodBlade>
-          <div class="blade-header" ngxBladeHeader>
-            <good-edit-header style="width: 100%;" #goodeditheader 
-              (goodWasUpdated)='goodListComponent.onGoodWasUpdated($event)'
-              (goodWasCreated)='goodListComponent.onGoodWasCreated($event)'>
-            </good-edit-header>
-          </div>
-          <div ngxBladeBody>
-            <good-edit #goodedit 
-              [editableGood]='goodeditheader._editableGood'
-              (formValueChanges)='goodeditheader.onFormValueChanges($event)'>
-            </good-edit>
-          </div>
-        </ngx-blade>
+        <good-edit 
+          (goodWasUpdated)='goodListComponent.onGoodWasUpdated($event)'
+          (goodWasCreated)='goodListComponent.onGoodWasCreated($event)'
+        #goodedit></good-edit>       
       </div>
     </ng-template>
   </div>

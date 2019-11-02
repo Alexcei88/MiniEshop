@@ -1,7 +1,7 @@
 import { Component, ViewChild, AfterViewInit, ChangeDetectorRef, OnInit, Inject } from '@angular/core';
 import { DataService } from './services/data.service'
 import { GoodListComponent } from './eshop/blades/goodlist/good-list.component'
-import { EditGoodHeaderComponent } from './eshop/blades/goodedit/good-edit-header.component'
+import { EditGoodComponent } from './eshop/blades/goodedit/good-edit.component'
 import { BladeConfig } from 'ngx-blade/esm5/ngx-blade';
 import { NgxBladeComponent } from 'ngx-blade/esm5/src/app/modules/ngx-blade/ngx-blade.component';
 import { Category, Good } from './model'
@@ -28,35 +28,21 @@ export class AppComponent implements AfterViewInit, OnInit {
   @ViewChild("categoryBlade", { static: false })
   private categoryBlade: NgxBladeComponent;
 
-  private goodListBlade: NgxBladeComponent;
-  @ViewChild("goodListBlade", { static: false }) set content(content: NgxBladeComponent) {
-    if (content !== undefined) {
-      this.goodListBlade = content;
-      this.goodListBlade.onMaximize();
-    }
-  }
   private isVisibleGoodListBlade: boolean = false;
 
-  private goodListComponent: GoodListComponent = new GoodListComponent(this.dataService);
+  private goodListComponent: GoodListComponent;
   @ViewChild('goodlist', { static: false }) set goodListEl(goodListEl: GoodListComponent) {
     if (goodListEl !== undefined) {
       this.goodListComponent = goodListEl;
     }
   }
 
-  private editGoodBlade: NgxBladeComponent;
-  @ViewChild("editGoodBlade", { static: false }) set editGood(editGood: NgxBladeComponent) {
-    if (editGood!== undefined) {
-      this.editGoodBlade = editGood;
-      this.editGoodBlade.onMaximize();
-    }
-  }
   private isVisibleEditGoodBlade: boolean = false;
 
-  private editHeaderGoodComponent: EditGoodHeaderComponent;
-  @ViewChild('goodeditheader', { static: false }) set editGoodHeaderEl(editGoodHeaderEl: EditGoodHeaderComponent) {
-    if (editGoodHeaderEl !== undefined) {
-      this.editHeaderGoodComponent = editGoodHeaderEl;
+  private editGoodComponent: EditGoodComponent;
+  @ViewChild('goodedit', { static: false }) set editGoodEl(editGoodEl: EditGoodComponent) {
+    if (editGoodEl !== undefined) {
+      this.editGoodComponent = editGoodEl;
     }
   }
 
@@ -77,8 +63,8 @@ export class AppComponent implements AfterViewInit, OnInit {
     if (this.goodListComponent != null) {
       this.goodListComponent.onNewCategoryWasSelected(category);
       // close blade because tha blade is displayed good on unselected category
-      if(this.editGoodBlade != undefined) {
-        this.editGoodBlade.close();
+      if(this.editGoodComponent != undefined) {
+        this.editGoodComponent.close();
         this.isVisibleEditGoodBlade = false;
         this.changeDetector.detectChanges();
       }
@@ -90,8 +76,8 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.isVisibleEditGoodBlade = true;
       this.changeDetector.detectChanges();
     }
-    if (this.editHeaderGoodComponent != null) {
-      this.editHeaderGoodComponent.newGoodWasSelected(good);
+    if (this.editGoodComponent != null) {
+      this.editGoodComponent.newGoodWasSelected(good);
     }
   }
 }

@@ -13,13 +13,14 @@ import { ConnectionComponent } from './connection/connection.component'
 
 import { BladeHeaderComponent } from './eshop/blades/blade-header.component'
 import { GoodListComponent } from './eshop/blades/goodlist/good-list.component'
-import { GoodListHeaderComponent } from './eshop/blades/goodlist/good-list-header.component'
 import { GoodListConfirmDeleteModalContent } from './eshop/blades/goodlist/good-list-confirmdeletemodal.component'
+import { GoodListBodyComponent } from './eshop/blades/goodlist/good-list-body.component'
+
 
 import { CategoryComponent } from './eshop/blades/category/category.component'
 import { EditGoodComponent } from './eshop/blades/goodedit/good-edit.component'
-import { EditGoodHeaderComponent } from './eshop/blades/goodedit/good-edit-header.component'
-import { GoodEditResetModalContent } from './eshop/blades/goodedit/good-edit-resetmodal.component'
+import { EditGoodBodyComponent } from './eshop/blades/goodedit/good-edit-body.component'
+import { EditGoodResetModalContent } from './eshop/blades/goodedit/good-edit-resetmodal.component'
 
 
 import { LoaderService } from './services/loader.service'
@@ -81,11 +82,11 @@ const customNotifierOptions: NotifierOptions = {
     CategoryComponent,
     GoodListComponent,
     EditGoodComponent,
-    GoodEditResetModalContent,
-    EditGoodHeaderComponent,
-    GoodListHeaderComponent,
+    EditGoodResetModalContent,
+    EditGoodBodyComponent,
     ConnectionComponent,
     BladeHeaderComponent,
+    GoodListBodyComponent,
     GoodListConfirmDeleteModalContent
   ],
   imports: [
@@ -103,7 +104,7 @@ const customNotifierOptions: NotifierOptions = {
     LoaderService,
     { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }],
   entryComponents: [
-        GoodEditResetModalContent,
+        EditGoodResetModalContent,
         GoodListConfirmDeleteModalContent
     ],
   bootstrap: [AppComponent]

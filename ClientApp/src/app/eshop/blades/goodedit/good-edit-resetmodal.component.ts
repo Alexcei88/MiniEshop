@@ -7,7 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     styleUrls: ['./../../eshop.component.css']
 })
 
-export class GoodEditResetModalContent {
+export class EditGoodResetModalContent {
 
     constructor(public modal: NgbActiveModal) { }
 }

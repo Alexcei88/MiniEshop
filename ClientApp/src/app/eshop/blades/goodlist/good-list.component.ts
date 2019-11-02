@@ -1,8 +1,13 @@
-import { Component, Inject, EventEmitter, Output, Input } from '@angular/core';
+import { Component, Inject, EventEmitter, Output, Input, ViewChild } from '@angular/core';
 import { DataService } from '../../../services/data.service'
 import { Good, Category } from '../../../model';
-import { createImagePath } from '../../../common'
 import { BehaviorSubject } from 'rxjs'
+import { GoodListConfirmDeleteModalContent } from './good-list-confirmdeletemodal.component'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HeaderButton } from '../../blades/blade-header.component'
+import { BladeConfig } from 'ngx-blade/esm5/ngx-blade';
+import { GoodListBodyComponent } from './good-list-body.component'
+import { NgxBladeComponent } from 'ngx-blade/esm5/src/app/modules/ngx-blade/ngx-blade.component';
 
 @Component({
     selector: 'good-list',
@@ -12,95 +17,94 @@ import { BehaviorSubject } from 'rxjs'
 
 export class GoodListComponent {
 
-    private _goodList: Good[]; // массив товаров
-
-    private _selectedGoodIndex: number;
-    private _selectedGoodName: string;
-
-    private _PAGE_SIZE: number = 10;
-    private _activePage: number = 1;
-    private _goodSize: number;
-
-    private _selectedCategoryId: BehaviorSubject<string> = new BehaviorSubject(''); 
-    private _selectedCategoryName: BehaviorSubject<string> = new BehaviorSubject(''); 
-
     @Output() goodWasSelected: EventEmitter<Good>;
-    @Output() goodWasChecked: EventEmitter<any>;
 
-    constructor(@Inject(DataService) private dataService: DataService) {
-        this._selectedGoodIndex = -1;
-        this._goodList = []
-        this._goodSize = 0;
-        this.goodWasSelected = new EventEmitter<Good>();
-        this.goodWasChecked = new EventEmitter<any>();
-    }
+    public bladeConfig: BladeConfig = {
+        closeButton: false,
+        maximizeButton: false,
+        isModal: false,
+    };
 
-    onNewCategoryWasSelected(category: Category): void {
-        this.getGoods(category.id, category.name);
-    }
-
-    onPageChange(page: number) {
-        this.dataService.getGoods(this._selectedCategoryId.getValue(), (page - 1) * this._PAGE_SIZE, this._PAGE_SIZE)
-            .subscribe((data: Good[]) => {
-                this._selectedGoodIndex = -1;
-                this._goodList = data;
-                this._activePage = page;
-            })
-    }
-
-    onGoodWasSelected(event: any, index: number): void {
-        if (index < this._goodList.length) {
-            this._selectedGoodIndex = index;
-            this.goodWasSelected.emit(this._goodList[index]);
-            this._selectedGoodName = this._goodList[index].name;
+    private _blade: NgxBladeComponent;
+    @ViewChild("goodListBlade", { static: false }) set blade(blade: NgxBladeComponent) {
+        if (blade !== undefined) {
+            this._blade = blade;
+            this._blade.onMaximize();
         }
     }
 
+    private bodyComponent: GoodListBodyComponent;
+    @ViewChild('body', { static: false }) set _body(body: GoodListBodyComponent) {
+        if (body !== undefined) {
+            this.bodyComponent = body;
+        }
+    }
+
+    private _categoryName: string;
+    private get categoryName(): string {
+        if (this.bodyComponent != null) {
+            return this.bodyComponent.selectedCategoryName();
+        }
+        return "";
+    }
+
+    private _buttons: HeaderButton[] = [];
+
+    ngOnInit() {
+        let newGoodButton = new HeaderButton('fa fa-plus-square fa-3x', "Новый товар", () => false);
+        newGoodButton.click.subscribe(g => this.createGood());
+        this._buttons.push(newGoodButton);
+
+        let removeButton = new HeaderButton('fa fa-trash fa-3x', "Удалить", () => {
+            if (this.bodyComponent == undefined)
+                return true;
+            return this.bodyComponent.selectedGoodIds().length == 0;
+        });
+        removeButton.click.subscribe(g => this.removeGoods());
+        this._buttons.push(removeButton);
+    }
+
+    constructor(@Inject(DataService) private dataService: DataService
+        , private modalService: NgbModal) {
+        this.goodWasSelected = new EventEmitter<Good>();
+        // this.newGoodCreating = new EventEmitter<Good>();
+    }
+
+    createGood(): void {
+        var good = new Good(null, 'Новый товар', 0.0, 1, null, this.bodyComponent.selectedCategoryId());
+        this.onGoodWasSelected(good);
+    }
+
+    removeGoods(): void {
+        this.openConfirmDeleteModal();
+    }
+
+    onNewCategoryWasSelected(category: Category): void {
+        this.bodyComponent.onNewCategoryWasSelected(category);
+    }
+
     onGoodWasUpdated(updatedGood: Good): void {
-        var foundIndex = this._goodList.findIndex(x => x.id == updatedGood.id);
-        this._goodList[foundIndex] = updatedGood;
-        this._selectedGoodName = this._goodList[this._selectedGoodIndex].name;
+        this.bodyComponent.onGoodWasUpdated(updatedGood);
     }
 
     onGoodWasCreated(createdGood: Good): void {
-        this.getGoods(this._selectedCategoryId.getValue(), this._selectedCategoryName.getValue());
+        this.bodyComponent.onGoodWasCreated(createdGood);
     }
 
-    onGoodsWasDeleted(deletedGoodIds: string[]): void {
-        this.getGoods(this._selectedCategoryId.getValue(), this._selectedCategoryName.getValue());
+    onGoodWasSelected(good: Good): void {
+        this.goodWasSelected.emit(good);
+    }
 
-        deletedGoodIds.forEach(g => {
-            const good = this._goodList.find(k => k.id == g);
-            var idx = this._goodList.indexOf(good);
-            if (idx != -1) {
-                --this._goodSize;
-                return this._goodList.splice(idx, 1); // The second parameter is the number of elements to remove.
+    openConfirmDeleteModal() {
+        const modalRef = this.modalService.open(GoodListConfirmDeleteModalContent, { backdrop: "static" });
+        modalRef.result.then((userResponse) => {
+            if (userResponse == 'ok') {
+                this.dataService.deleteProducts(this.bodyComponent.selectedGoodIds())
+                    .subscribe((data: Good[]) => {
+                        let ids = data.map(g => g.id);
+                        this.bodyComponent.onGoodsWasDeleted(ids);
+                    });
             }
         });
     }
-
-    private getGoods(categoryId: string, categoryName: string): void {
-        this.dataService.getGoods(categoryId, (this._activePage - 1) * this._PAGE_SIZE, this._PAGE_SIZE)
-            .subscribe((data: Good[]) => {
-                this._selectedGoodIndex = -1;
-                this._goodList = data;
-                this._activePage = 1;
-                this._selectedCategoryId.next(categoryId);
-                this._selectedCategoryName.next(categoryName);
-            })
-
-        this.dataService.getGoodsCount(categoryId)
-            .subscribe((size: number) => {
-                this._goodSize = size;
-            });
-    }
-
-    createImgPath = (serverPath: string) => {
-        return createImagePath(serverPath);
-    }
-
-    toogleGoodSelection(evt: any, goodId: string): void {
-        this.goodWasChecked.emit({ checked: evt.target.checked, goodId: goodId });
-    }
 }
-

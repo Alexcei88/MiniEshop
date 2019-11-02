@@ -1,2 +1,2 @@
 # MiniEshop
-Test application representing an mini eshop written in Angular
+Test application representing a mini eshop written in Angular

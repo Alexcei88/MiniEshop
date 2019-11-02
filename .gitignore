@@ -230,3 +230,5 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 StaticFiles/
+ClientApp/src/app/eshop/blades/category/category-body.component.js.map
+ClientApp/src/app/eshop/blades/category/category-body.component.js

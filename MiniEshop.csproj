@@ -53,6 +53,7 @@
     <None Remove="ClientApp\src\app\eshop\blades\blade-header.component.css" />
     <None Remove="ClientApp\src\app\eshop\blades\blade-header.component.html" />
     <None Remove="ClientApp\src\app\eshop\blades\blade-header.component.ts" />
+    <None Remove="ClientApp\src\app\eshop\blades\category\category-body.component.ts" />
     <None Remove="ClientApp\src\app\eshop\blades\goodedit\good-edit-body.component.html" />
     <None Remove="ClientApp\src\app\eshop\blades\goodedit\good-edit-body.component.ts" />
     <None Remove="ClientApp\src\app\eshop\blades\goodedit\good-edit-resetmodal.component.html" />
@@ -84,6 +85,9 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\eshop\blades\blade-header.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\eshop\blades\category\category-body.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\eshop\blades\goodedit\good-edit-body.component.html">
       <SubType>Code</SubType>
     </TypeScriptCompile>

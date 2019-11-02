@@ -6,32 +6,24 @@
   <div class="row h-100">
     <!-- category blade -->
     <div class="col my-3">
-      <ngx-blade [config]="bladeConfig" #categoryBlade>
-        <div class="blade-header" ngxBladeHeader>
-          <blade-header
-            [bladeName]='categoryBladeName'
-          ></blade-header>
-        </div>
-        <div ngxBladeBody>
-          <category #category (categoryWasSelected)="onNewCategoryWasSelected($event)"></category>
-        </div>
-      </ngx-blade>
+      <category-blade (categoryWasSelected)="onNewCategoryWasSelected($event)">       
+      </category-blade>
     </div>
     <!-- goodList blade -->
     <ng-template [ngIf]='isVisibleGoodListBlade'>
       <div class="col my-3">
-          <good-list 
+          <good-list-blade 
           (goodWasSelected)='onGoodWasSelected($event)'
-          #goodlist></good-list>
+          #goodlist></good-list-blade>
       </div>
     </ng-template>
     <!-- editGood blade -->
     <ng-template [ngIf]='isVisibleEditGoodBlade'>
       <div class="col my-3">
-        <good-edit 
+        <good-edit-blade
           (goodWasUpdated)='goodListComponent.onGoodWasUpdated($event)'
           (goodWasCreated)='goodListComponent.onGoodWasCreated($event)'
-        #goodedit></good-edit>       
+        #goodedit></good-edit-blade>       
       </div>
     </ng-template>
   </div>

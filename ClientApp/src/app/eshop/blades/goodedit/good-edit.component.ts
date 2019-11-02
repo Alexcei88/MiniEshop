@@ -1,9 +1,6 @@
 import { Component, Inject, EventEmitter, OnInit, Input, Output, ElementRef, ViewChild } from '@angular/core';
 import { DataService } from '../../../services/data.service'
 import { Good } from '../../../model';
-import { createImagePath } from '../../../common'
-import { NgForm } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs'
 import { EditGoodResetModalContent } from './good-edit-resetmodal.component'
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,7 +10,7 @@ import { BladeConfig } from 'ngx-blade/esm5/ngx-blade';
 import { NgxBladeComponent } from 'ngx-blade/esm5/src/app/modules/ngx-blade/ngx-blade.component';
 
 @Component({
-    selector: 'good-edit',
+    selector: 'good-edit-blade',
     templateUrl: './good-edit.component.html',
     styleUrls: ['./../../eshop.component.css']
 })
@@ -31,18 +28,18 @@ export class EditGoodComponent implements OnInit {
 
     private _isValidForm: boolean;
     private _editableGood: Good;
-    private _primaryGood; Good;
+    private _primaryGood: Good;
 
     private _isEnabledCancelButton: boolean = false;
     private _isEnabledSaveButton: boolean = false;
 
     private _buttons: HeaderButton[] = [];
 
-    private editGoodBlade: NgxBladeComponent;
-    @ViewChild("editGoodBlade", { static: false }) set editGood(editGood: NgxBladeComponent) {
-        if (editGood !== undefined) {
-            this.editGoodBlade = editGood;
-            this.editGoodBlade.onMaximize();
+    private _blade: NgxBladeComponent;
+    @ViewChild("editGoodBlade", { static: false }) set blade(blade: NgxBladeComponent) {
+        if (blade !== undefined) {
+            this._blade = blade;
+            this._blade.onMaximize();
         }
     }
 
@@ -81,8 +78,8 @@ export class EditGoodComponent implements OnInit {
     }
 
     close() {
-        if (this.editGoodBlade != undefined) {
-            this.editGoodBlade.close();
+        if (this._blade != undefined) {
+            this._blade.close();
         }
     }
     sendGoodToSave(): Observable<any> {

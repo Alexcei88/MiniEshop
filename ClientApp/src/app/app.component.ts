@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, ChangeDetectorRef, OnInit, Inject } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, Inject } from '@angular/core';
 import { DataService } from './services/data.service'
 import { GoodListComponent } from './eshop/blades/goodlist/good-list.component'
 import { EditGoodComponent } from './eshop/blades/goodedit/good-edit.component'
@@ -11,22 +11,11 @@ import { Category, Good } from './model'
   templateUrl: './app.component.html',
   providers: [DataService]
 })
-export class AppComponent implements AfterViewInit, OnInit {
+export class AppComponent {
   title = 'Mini eshop App';
-
-  categoryBladeName: string ='Категории';
-
+ 
   constructor(private changeDetector: ChangeDetectorRef, @Inject(DataService) private dataService: DataService) {
   }
-
-  public bladeConfig: BladeConfig = {
-    closeButton: false,
-    maximizeButton: false,
-    isModal: false,
-  };
-
-  @ViewChild("categoryBlade", { static: false })
-  private categoryBlade: NgxBladeComponent;
 
   private isVisibleGoodListBlade: boolean = false;
 
@@ -44,14 +33,6 @@ export class AppComponent implements AfterViewInit, OnInit {
     if (editGoodEl !== undefined) {
       this.editGoodComponent = editGoodEl;
     }
-  }
-
-  ngAfterViewInit() {
-    this.categoryBlade.onMaximize();
-  }
-
-  ngOnInit(){
-    this.dataService.getCategories();
   }
 
   onNewCategoryWasSelected(category: Category): void {

@@ -1,6 +1,12 @@
-<div>
-  <tree-root [focused]="true" 
-  [nodes]="_category"
-  (activate)="onCategoryWasSelected($event)">
-</tree-root>
-</div>
+<ngx-blade [config]="bladeConfig" #categoryBlade>
+    <div class="blade-header" ngxBladeHeader>
+        <blade-header style="width: 100%;" [bladeName]="_bladeName">
+        </blade-header>
+    </div>
+    <div ngxBladeBody>
+        <category-body #goodeditbody
+        (categoryWasSelected)='onCategoryWasSelected($event)'
+        >
+        </category-body>
+    </div>
+</ngx-blade>

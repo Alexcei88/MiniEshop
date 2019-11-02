@@ -11,13 +11,14 @@ import { AppComponent } from './app.component';
 import { LoaderComponent } from './loader/loader.component'
 import { ConnectionComponent } from './connection/connection.component'
 
+import { CategoryComponent } from './eshop/blades/category/category.component'
+import { CategoryBodyComponent } from './eshop/blades/category/category-body.component'
+
 import { BladeHeaderComponent } from './eshop/blades/blade-header.component'
 import { GoodListComponent } from './eshop/blades/goodlist/good-list.component'
 import { GoodListConfirmDeleteModalContent } from './eshop/blades/goodlist/good-list-confirmdeletemodal.component'
 import { GoodListBodyComponent } from './eshop/blades/goodlist/good-list-body.component'
 
-
-import { CategoryComponent } from './eshop/blades/category/category.component'
 import { EditGoodComponent } from './eshop/blades/goodedit/good-edit.component'
 import { EditGoodBodyComponent } from './eshop/blades/goodedit/good-edit-body.component'
 import { EditGoodResetModalContent } from './eshop/blades/goodedit/good-edit-resetmodal.component'
@@ -80,6 +81,7 @@ const customNotifierOptions: NotifierOptions = {
     AppComponent,
     LoaderComponent,
     CategoryComponent,
+    CategoryBodyComponent,
     GoodListComponent,
     EditGoodComponent,
     EditGoodResetModalContent,

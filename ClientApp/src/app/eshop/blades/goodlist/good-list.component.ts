@@ -10,7 +10,7 @@ import { GoodListBodyComponent } from './good-list-body.component'
 import { NgxBladeComponent } from 'ngx-blade/esm5/src/app/modules/ngx-blade/ngx-blade.component';
 
 @Component({
-    selector: 'good-list',
+    selector: 'good-list-blade',
     templateUrl: './good-list.component.html',
     styleUrls: ['./../../eshop.component.css']
 })

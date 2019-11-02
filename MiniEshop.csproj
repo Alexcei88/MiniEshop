@@ -50,6 +50,9 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\common.ts" />
+    <None Remove="ClientApp\src\app\eshop\blades\blade-header.component.css" />
+    <None Remove="ClientApp\src\app\eshop\blades\blade-header.component.html" />
+    <None Remove="ClientApp\src\app\eshop\blades\blade-header.component.ts" />
     <None Remove="ClientApp\src\app\eshop\blades\goodedit\good-edit-resetmodal.component.html" />
     <None Remove="ClientApp\src\app\eshop\blades\goodedit\good-edit-resetmodal.component.ts" />
     <None Remove="ClientApp\src\app\eshop\blades\goodlist\good-edit-confirmdeletemodal.component.html" />
@@ -73,6 +76,10 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\common.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\eshop\blades\blade-header.component.css">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\eshop\blades\blade-header.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\eshop\blades\goodedit\good-edit-resetmodal.component.html">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -92,6 +99,9 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\eshop\blades\goodlist\good-list-header.component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\eshop\blades\blade-header.component.html">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\interceptors\loader.interceptor.ts" />

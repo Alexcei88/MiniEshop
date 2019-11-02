@@ -29,7 +29,3 @@ input.ng-touched.ng-invalid {border:solid red 2px;}
 .table > tbody > tr > td {
   vertical-align: middle;
 }
-
-.blade-name {
-  position: static;
-}

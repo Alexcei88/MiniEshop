@@ -1,29 +1,4 @@
-<div class="container-fluid">
-  <div class="row blade-name">
-    <span>{{ _editableGood.name }}</span>
-  </div>
-  <div class="row h-100 mt-3 align-items-center">
-    <div class="col-md-2">
-      <!-- one column -->
-      <div class="row justify-content-center">
-        <button type="button" class="btn btn-primary" [disabled]='!_isEnabledSaveButton' (click)="saveGood()">
-          <span class="fa fa-save fa-3x"></span>
-        </button>
-      </div>
-      <div class="row justify-content-center">
-        <label class="bladeheader">Сохранить</label>
-      </div>
-    </div>
-    <div class="col-md-2">
-      <!-- two column -->
-      <div class="row justify-content-center">
-        <button type="button" class="btn btn-primary" [disabled]='!_isEnabledCancelButton' (click)="resetChanges()">
-          <span class="fa fa-times fa-3x"></span>
-        </button>
-      </div>
-      <div class="row justify-content-center">
-        <label class="bladeheader">Отменить</label>
-      </div>
-    </div>
-  </div>
-</div>
+<blade-header
+  [bladeName]="_editableGood.name"
+  [buttons]="_buttons">
+</blade-header>

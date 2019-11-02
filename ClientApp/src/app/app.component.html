@@ -8,7 +8,9 @@
     <div class="col my-3">
       <ngx-blade [config]="bladeConfig" #categoryBlade>
         <div class="blade-header" ngxBladeHeader>
-          <span>Категории</span>
+          <blade-header
+            [bladeName]='categoryBladeName'
+          ></blade-header>
         </div>
         <div ngxBladeBody>
           <category #category (categoryWasSelected)="onNewCategoryWasSelected($event)"></category>

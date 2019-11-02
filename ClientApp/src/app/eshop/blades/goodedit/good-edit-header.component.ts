@@ -7,13 +7,15 @@ import { GoodEditResetModalContent } from './good-edit-resetmodal.component'
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { HeaderButton } from '../../blades/blade-header.component'
+
 @Component({
     selector: 'good-edit-header',
     templateUrl: './good-edit-header.component.html',
     styleUrls: ['./../../eshop.component.css']
 })
 
-export class EditGoodHeaderComponent {
+export class EditGoodHeaderComponent implements OnInit {
 
     @Output() goodWasUpdated: EventEmitter<Good>;
     @Output() goodWasCreated: EventEmitter<Good>;
@@ -26,12 +28,24 @@ export class EditGoodHeaderComponent {
     private _isEnabledCancelButton: boolean = false;
     private _isEnabledSaveButton: boolean = false;
 
+    private _buttons: HeaderButton[] = [];
+
     constructor(@Inject(DataService) private dataService: DataService,
         private modalService: NgbModal) {
         this.goodWasUpdated = new EventEmitter<Good>();
         this.goodWasCreated = new EventEmitter<Good>();
         this._editableGood = new Good(null, "", 0.0, 0, null, null);
         this._primaryGood = this._editableGood;
+    }
+
+    ngOnInit() {
+        let saveGoodButton = new HeaderButton('fa fa-save fa-3x', "Сохранить", () => !this._isEnabledSaveButton);
+        saveGoodButton .click.subscribe(g => this.saveGood());
+        this._buttons.push(saveGoodButton );
+
+        let removeButton = new HeaderButton('fa fa-times fa-3x', "Отменить", () => !this._isEnabledCancelButton);
+        removeButton.click.subscribe(g => this.resetChanges());
+        this._buttons.push(removeButton);     
     }
 
     onFormValueChanges(evt: any) {

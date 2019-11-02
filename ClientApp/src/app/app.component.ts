@@ -14,6 +14,8 @@ import { Category, Good } from './model'
 export class AppComponent implements AfterViewInit, OnInit {
   title = 'Mini eshop App';
 
+  categoryBladeName: string ='Категории';
+
   constructor(private changeDetector: ChangeDetectorRef, @Inject(DataService) private dataService: DataService) {
   }
 

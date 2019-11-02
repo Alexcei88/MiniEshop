@@ -1,0 +1,18 @@
+<div class="container-fluid">
+    <div class="row blade-name">
+      <span>{{ bladeName }}</span>
+    </div>
+    <div class="row h-100 mt-3 align-items-center">      
+      <div class="col-md-2" *ngFor="let p of buttons">
+        <!-- one column -->
+        <div class="row justify-content-center">
+          <button type="button" class="btn btn-primary" (click)="p.onClick()" [disabled]='p.disablePredicate()'>
+            <span class="{{p.iconUrl}}"></span>
+          </button>
+        </div>
+        <div class="row justify-content-center">
+          <label class="bladeheader">{{p.label}}</label>
+        </div>
+      </div>
+    </div>
+  </div>

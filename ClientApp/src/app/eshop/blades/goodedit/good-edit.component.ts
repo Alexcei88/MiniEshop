@@ -31,9 +31,6 @@ export class EditGoodComponent implements OnInit {
         }
     }
 
-    ngOnChanges() {
-        console.log("NgOnChanges");
-    }  
     private _editGoodForm: NgForm;
     @ViewChild("editGoodForm", { static: false }) set content(content: NgForm) {
         if (content !== undefined) {

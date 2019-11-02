@@ -1,0 +1,61 @@
+<notifier-container></notifier-container>
+<div class="container-fluid h-100">
+  <div class="row">
+    <loader></loader>
+  </div>
+  <div class="row h-100">
+    <!-- category blade -->
+    <div class="col my-3">
+      <ngx-blade [config]="bladeConfig" #categoryBlade>
+        <div class="blade-header" ngxBladeHeader>
+          <span>Категории</span>
+        </div>
+        <div ngxBladeBody>
+          <category #category (categoryWasSelected)="onNewCategoryWasSelected($event)"></category>
+        </div>
+      </ngx-blade>
+    </div>
+    <!-- goodList blade -->
+    <ng-template [ngIf]='isVisibleGoodListBlade'>
+      <div class="col my-3">
+        <ngx-blade [config]="bladeConfig" #goodListBlade>
+          <div class="blade-header" ngxBladeHeader>
+            <good-list-header style="width: 100%;" 
+              (newGoodCreating)='onGoodWasSelected($event)'
+              (goodsWasDeleted)='goodListComponent.onGoodsWasDeleted($event)'
+              [categoryId]='goodListComponent._selectedCategoryId | async'
+              [categoryName]='goodListComponent._selectedCategoryName | async'
+              #goodListHeader>
+            </good-list-header>
+          </div>
+          <div ngxBladeBody>
+            <good-list #goodlist 
+              (goodWasSelected)='onGoodWasSelected($event)'
+              (goodWasChecked)='goodListHeader.onWasGoodChecked($event)'
+              (categoryWasUpdated)='goodListHeader.onWasCategoryUpdated($event)'> 
+            </good-list>
+          </div>
+        </ngx-blade>
+      </div>
+    </ng-template>
+    <!-- editGood blade -->
+    <ng-template [ngIf]='isVisibleEditGoodBlade'>
+      <div class="col my-3">
+        <ngx-blade [config]="bladeConfig" #editGoodBlade>
+          <div class="blade-header" ngxBladeHeader>
+            <good-edit-header style="width: 100%;" #goodeditheader 
+              (goodWasUpdated)='goodListComponent.onGoodWasUpdated($event)'
+              (goodWasCreated)='goodListComponent.onGoodWasCreated($event)'>
+            </good-edit-header>
+          </div>
+          <div ngxBladeBody>
+            <good-edit #goodedit 
+              [editableGood]='goodeditheader._editableGood'
+              (formChangeValid)='goodeditheader.onChangeFormValidation($event)'>
+            </good-edit>
+          </div>
+        </ngx-blade>
+      </div>
+    </ng-template>
+  </div>
+</div>

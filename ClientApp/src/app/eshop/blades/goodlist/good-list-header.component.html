@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="row blade-name">
+    <span>{{ categoryName }}</span>
+  </div>
+  <div class="row mt-3 justify-content-start">
+    <div class="col-md-2">
+      <!-- one column -->
+      <div class="row justify-content-center">
+        <button type="button" class="btn btn-primary" (click)="createGood()">
+          <span class="fa fa-plus-square fa-3x"></span>
+        </button>
+      </div>
+      <div class="row justify-content-center">
+        <label class="bladeheader">Новый товар</label>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <!-- two column -->
+      <div class="row justify-content-center">
+        <button type="button" class="btn btn-primary" (click)="removeGoods()" [disabled]='_selectedGoodIds.length == 0'>
+          <span class="fa fa-trash fa-3x"></span>
+        </button>
+      </div>
+      <div class="row justify-content-center">
+        <label class="bladeheader">Удалить</label>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="d-flex flex-row justify-content-end align-items-center">
+  <div class="p-2">
+    <label>{{ _PAGE_SIZE * (_activePage - 1) + _goodList.length}} of {{ _goodSize }}</label>
+  </div>
+  <div class="p-2 mr-4">
+    <ngb-pagination [page]="_activePage" [pageSize]="_PAGE_SIZE" [collectionSize]="_goodSize"
+      (pageChange)="onPageChange($event)">
+    </ngb-pagination>
+  </div>
+</div>
+
+<table class="table table-hover table-borderless">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Qty</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr valign="center" *ngFor="let p of _goodList;index as i" (click)="onGoodWasSelected($event, i)"
+      [class.active]="i == _selectedGoodIndex">
+      <td class="justify-content-center">
+        <input type="checkbox" (change)="toogleGoodSelection($event, p.id)">
+      </td>
+      <td>
+        <img id="image" class="good-image-preview img-thumbnail" [src]="createImgPath(p.imageUrl)">
+        {{ p.name}}
+      </td>
+      <td>{{ p.price }} USD</td>
+      <td>{{ p.qty }}</td>
+    </tr>
+  </tbody>
+</table>

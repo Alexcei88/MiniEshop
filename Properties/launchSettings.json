@@ -1,0 +1,17 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:50569",
+      "sslPort": 44322
+    }
+  },
+  "profiles": {
+    "MiniEshop": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:10000"
+    }
+  }
+}

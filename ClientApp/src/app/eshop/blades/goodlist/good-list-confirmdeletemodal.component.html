@@ -1,0 +1,11 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Deletion Confirmation</h4>
+  </div>
+  <div class="modal-body">
+    <p>Would you like to remove selected goods?</p>
+    <p><strong> The goods will be lost forever</strong></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('ok')">Save</button>
+  </div>

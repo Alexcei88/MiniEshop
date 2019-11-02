@@ -1,0 +1,10 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Not saved changes</h4>
+  </div>
+  <div class="modal-body">
+    <p><strong>The current good was modified. Would you like to save that changes?</strong></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close('cancel')">Reset</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('save')">Save</button>
+  </div>

@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~angular-tree-component/dist/angular-tree-component.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~angular-notifier/styles";
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+ }
+
+ .spinnercenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}

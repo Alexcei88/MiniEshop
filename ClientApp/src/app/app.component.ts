@@ -71,8 +71,15 @@ export class AppComponent implements AfterViewInit, OnInit {
       this.isVisibleGoodListBlade = true;
       this.changeDetector.detectChanges();
     }
+
     if (this.goodListComponent != null) {
       this.goodListComponent.onNewCategoryWasSelected(category);
+      // close blade because tha blade is displayed good on unselected category
+      if(this.editGoodBlade != undefined) {
+        this.editGoodBlade.close();
+        this.isVisibleEditGoodBlade = false;
+        this.changeDetector.detectChanges();
+      }
     }
   }
 

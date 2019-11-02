@@ -15,7 +15,7 @@ export class EditGoodComponent implements OnInit {
 
     private _good: Good = new Good('', '', 0.0, 1, null, null);
 
-    @Output() formChangeValid: EventEmitter<boolean>;
+    @Output() formValueChanges: EventEmitter<any>;
 
     ngOnInit() { }
 
@@ -31,12 +31,22 @@ export class EditGoodComponent implements OnInit {
         }
     }
 
+    ngOnChanges() {
+        console.log("NgOnChanges");
+    }  
     private _editGoodForm: NgForm;
     @ViewChild("editGoodForm", { static: false }) set content(content: NgForm) {
         if (content !== undefined) {
             this._editGoodForm = content;
-            this._editGoodForm.statusChanges.subscribe(
-                result => this.formChangeValid.emit(result === 'VALID' ? true : false)
+            this._editGoodForm.valueChanges.subscribe(
+                result => {    
+                    let good = (JSON.parse(JSON.stringify(this._good)));
+                    good.imageUrl = result.imageUrl;
+                    good.price = result.price;
+                    good.qty = result.qty;
+                    good.name = result.name;
+                    this.formValueChanges.emit({valid: this._editGoodForm.valid, good: good})
+                }
             );
         }
     }
@@ -47,14 +57,14 @@ export class EditGoodComponent implements OnInit {
     }
 
     constructor(@Inject(DataService) private dataService: DataService) {
-        this.formChangeValid = new EventEmitter<boolean>();
+        this.formValueChanges = new EventEmitter<boolean>();
     }
 
     uploadFiles(event: any) {
         let files = event.target.files;
         this.dataService.uploadFile(files).subscribe((data: any) => {
             this._good.imageUrl = data.dbPath;
-            this.formChangeValid.emit(true);
+            this.formValueChanges.emit(this._editGoodForm.valid);
         });
     }
 

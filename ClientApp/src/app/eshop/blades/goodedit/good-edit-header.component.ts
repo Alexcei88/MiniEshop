@@ -20,6 +20,7 @@ export class EditGoodHeaderComponent {
 
     private _isValidForm: boolean;
     private _editableGood: Good;
+
     private _primaryGood; Good;
 
     private _isEnabledCancelButton: boolean = false;
@@ -33,12 +34,15 @@ export class EditGoodHeaderComponent {
         this._primaryGood = this._editableGood;
     }
 
-    onChangeFormValidation(isValid: boolean) {
-        console.log("form changed", isValid);
-        this._isValidForm = isValid;
-        let editableGood = JSON.stringify(this._editableGood);
+    onFormValueChanges(evt: any) {
+        this._isValidForm = evt.valid;
+        this.updateButtonStates(evt.good);
+    }
+
+    updateButtonStates(newGood: Good) {
+        let editableGood = JSON.stringify(newGood);
         let primaryGood = JSON.stringify(this._primaryGood);
-        this._isEnabledSaveButton = isValid && editableGood != primaryGood;
+        this._isEnabledSaveButton = this._isValidForm && editableGood != primaryGood;
         this._isEnabledCancelButton = editableGood != primaryGood;
     }
 

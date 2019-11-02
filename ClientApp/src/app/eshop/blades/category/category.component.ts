@@ -9,7 +9,7 @@ import { DataService } from '../../../services/data.service'
 })
 
 export class CategoryComponent implements OnInit {
-    private _category: Category[];  // массив товаров
+    private _category: Category[]; 
     private _prevSelectedCategoryId: string
 
     @Output() categoryWasSelected: EventEmitter<Category>;
@@ -20,20 +20,18 @@ export class CategoryComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loadCategories();    // загрузка данных при старте компонента
+        this.loadCategories();
     }
-    // получаем данные через сервис
+    
     loadCategories() {
         this.dataService.getCategories()
-            .subscribe((data: Category[]) =>
-            {
+            .subscribe((data: Category[]) => {
                 this._category = data;
             })
     }
 
     onCategoryWasSelected(ev: any): void {
-        if(this._prevSelectedCategoryId != ev.node.data.id)
-        {
+        if(this._prevSelectedCategoryId != ev.node.data.id) {
             this.categoryWasSelected.emit(ev.node.data);
         }
     }

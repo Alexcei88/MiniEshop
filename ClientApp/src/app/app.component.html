@@ -51,7 +51,7 @@
           <div ngxBladeBody>
             <good-edit #goodedit 
               [editableGood]='goodeditheader._editableGood'
-              (formChangeValid)='goodeditheader.onChangeFormValidation($event)'>
+              (formValueChanges)='goodeditheader.onFormValueChanges($event)'>
             </good-edit>
           </div>
         </ngx-blade>

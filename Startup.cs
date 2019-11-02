@@ -71,6 +71,7 @@ namespace MiniEshop
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles")),
                 RequestPath = new PathString("/StaticFiles")
             });
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();

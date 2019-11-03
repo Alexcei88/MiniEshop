@@ -14,7 +14,7 @@ export class GoodListBodyComponent {
 
     public goodList: Good[]; // массив товаров
 
-    public selectedGoodIndex: number;
+    public selectedGoodIndex: number;   
     private _selectedGoodName: string;
 
     public PAGE_SIZE: number = 10;
@@ -34,7 +34,6 @@ export class GoodListBodyComponent {
     }
 
     private _selectedGoodIds: string[];
-
     public selectedGoodIds(): string[] {
         return this._selectedGoodIds;
     }
@@ -88,7 +87,12 @@ export class GoodListBodyComponent {
             var idx = this.goodList.indexOf(good);
             if (idx != -1) {
                 --this._goodSize;
-                return this.goodList.splice(idx, 1); // The second parameter is the number of elements to remove.
+                this.goodList.splice(idx, 1); // The second parameter is the number of elements to remove.
+            }
+
+            idx = this._selectedGoodIds.indexOf(g);
+            if (idx != -1) {
+                this._selectedGoodIds.splice(idx, 1);
             }
         });
     }

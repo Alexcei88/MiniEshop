@@ -35,6 +35,14 @@ export class AppComponent {
     }
   }
 
+  closeEditGoodComponent() {
+    if(this.editGoodComponent != undefined) {
+      this.editGoodComponent.close();
+      this.isVisibleEditGoodBlade = false;
+      this.changeDetector.detectChanges();
+    }
+  }
+
   onNewCategoryWasSelected(category: Category): void {
     if (this.isVisibleGoodListBlade === false) {
       this.isVisibleGoodListBlade = true;

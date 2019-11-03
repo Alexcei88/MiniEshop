@@ -14,6 +14,7 @@
       <div class="col my-3">
           <good-list-blade 
           (goodWasSelected)='onGoodWasSelected($event)'
+          (needToCloseEditBlade)='closeEditGoodComponent($event)'
           #goodlist></good-list-blade>
       </div>
     </ng-template>

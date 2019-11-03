@@ -132,7 +132,10 @@
     <None Update="ClientApp\src\assets\twitter-logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="StaticFiles\Images\Boston City Flow.jpg">
+    <None Update="StaticFiles\Images\temp.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="StaticFiles\Images\TempImages\temp.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

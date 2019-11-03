@@ -18,6 +18,7 @@ import { NgxBladeComponent } from 'ngx-blade/esm5/src/app/modules/ngx-blade/ngx-
 export class GoodListComponent {
 
     @Output() goodWasSelected: EventEmitter<Good>;
+    @Output() needToCloseEditBlade: EventEmitter<void>;
 
     public bladeConfig: BladeConfig = {
         closeButton: false,
@@ -68,7 +69,7 @@ export class GoodListComponent {
     constructor(@Inject(DataService) private dataService: DataService
         , private modalService: NgbModal) {
         this.goodWasSelected = new EventEmitter<Good>();
-        // this.newGoodCreating = new EventEmitter<Good>();
+        this.needToCloseEditBlade = new EventEmitter<void>();
     }
 
     createGood(): void {
@@ -102,6 +103,10 @@ export class GoodListComponent {
             if (userResponse == 'ok') {
                 this.dataService.deleteProducts(this.bodyComponent.selectedGoodIds())
                     .subscribe((data: Good[]) => {
+                        let index = this.bodyComponent.selectedGoodIds().indexOf(this.bodyComponent.goodList[this.bodyComponent.selectedGoodIndex].id);
+                        if(index != -1) {
+                            this.needToCloseEditBlade.emit();
+                        }
                         let ids = data.map(g => g.id);
                         this.bodyComponent.onGoodsWasDeleted(ids);
                     });

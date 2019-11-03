@@ -28,12 +28,15 @@ export class EditGoodComponent implements OnInit {
 
     private _isValidForm: boolean;
     private _editableGood: Good;
+    public get editableGood() { return this._editableGood; }
     private _primaryGood: Good;
 
     private _isEnabledCancelButton: boolean = false;
     private _isEnabledSaveButton: boolean = false;
 
     private _buttons: HeaderButton[] = [];
+    public get buttons() {return this._buttons; }
+
 
     private _blade: NgxBladeComponent;
     @ViewChild("editGoodBlade", { static: false }) set blade(blade: NgxBladeComponent) {

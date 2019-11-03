@@ -41,7 +41,7 @@ export class GoodListComponent {
     }
 
     private _categoryName: string;
-    private get categoryName(): string {
+    public get categoryName(): string {
         if (this.bodyComponent != null) {
             return this.bodyComponent.selectedCategoryName();
         }
@@ -49,6 +49,7 @@ export class GoodListComponent {
     }
 
     private _buttons: HeaderButton[] = [];
+    public get buttons() {return this._buttons; }
 
     ngOnInit() {
         let newGoodButton = new HeaderButton('fa fa-plus-square fa-3x', "Новый товар", () => false);

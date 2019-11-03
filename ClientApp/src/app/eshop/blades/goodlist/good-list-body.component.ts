@@ -12,14 +12,15 @@ import { BehaviorSubject } from 'rxjs'
 
 export class GoodListBodyComponent {
 
-    private _goodList: Good[]; // массив товаров
+    public goodList: Good[]; // массив товаров
 
-    private _selectedGoodIndex: number;
+    public selectedGoodIndex: number;
     private _selectedGoodName: string;
 
-    private _PAGE_SIZE: number = 10;
-    private _activePage: number = 1;
+    public PAGE_SIZE: number = 10;
+    public activePage: number = 1;
     private _goodSize: number;
+    public get goodSize() {return this._goodSize;}
 
     private _selectedCategoryId: string;
     private _selectedCategoryName: string;
@@ -41,8 +42,8 @@ export class GoodListBodyComponent {
     @Output() goodWasSelected: EventEmitter<Good>;
  
     constructor(@Inject(DataService) private dataService: DataService) {
-        this._selectedGoodIndex = -1;
-        this._goodList = []
+        this.selectedGoodIndex = -1;
+        this.goodList = []
         this._goodSize = 0;
         this._selectedGoodIds = [];
         this.goodWasSelected = new EventEmitter<Good>();
@@ -53,26 +54,26 @@ export class GoodListBodyComponent {
     }
 
     onPageChange(page: number) {
-        this.dataService.getGoods(this._selectedCategoryId, (page - 1) * this._PAGE_SIZE, this._PAGE_SIZE)
+        this.dataService.getGoods(this._selectedCategoryId, (page - 1) * this.PAGE_SIZE, this.PAGE_SIZE)
             .subscribe((data: Good[]) => {
-                this._selectedGoodIndex = -1;
-                this._goodList = data;
-                this._activePage = page;
+                this.selectedGoodIndex = -1;
+                this.goodList = data;
+                this.activePage = page;
             })
     }
 
     onGoodWasSelected(event: any, index: number): void {
-        if (index < this._goodList.length) {
-            this._selectedGoodIndex = index;
-            this.goodWasSelected.emit(this._goodList[index]);
-            this._selectedGoodName = this._goodList[index].name;
+        if (index < this.goodList.length) {
+            this.selectedGoodIndex = index;
+            this.goodWasSelected.emit(this.goodList[index]);
+            this._selectedGoodName = this.goodList[index].name;
         }
     }
 
     onGoodWasUpdated(updatedGood: Good): void {
-        var foundIndex = this._goodList.findIndex(x => x.id == updatedGood.id);
-        this._goodList[foundIndex] = updatedGood;
-        this._selectedGoodName = this._goodList[this._selectedGoodIndex].name;
+        var foundIndex = this.goodList.findIndex(x => x.id == updatedGood.id);
+        this.goodList[foundIndex] = updatedGood;
+        this._selectedGoodName = this.goodList[this.selectedGoodIndex].name;
     }
 
     onGoodWasCreated(createdGood: Good): void {
@@ -83,21 +84,21 @@ export class GoodListBodyComponent {
         this.getGoods(this._selectedCategoryId, this._selectedCategoryName);
 
         deletedGoodIds.forEach(g => {
-            const good = this._goodList.find(k => k.id == g);
-            var idx = this._goodList.indexOf(good);
+            const good = this.goodList.find(k => k.id == g);
+            var idx = this.goodList.indexOf(good);
             if (idx != -1) {
                 --this._goodSize;
-                return this._goodList.splice(idx, 1); // The second parameter is the number of elements to remove.
+                return this.goodList.splice(idx, 1); // The second parameter is the number of elements to remove.
             }
         });
     }
 
     private getGoods(categoryId: string, categoryName: string): void {
-        this.dataService.getGoods(categoryId, (this._activePage - 1) * this._PAGE_SIZE, this._PAGE_SIZE)
+        this.dataService.getGoods(categoryId, (this.activePage - 1) * this.PAGE_SIZE, this.PAGE_SIZE)
             .subscribe((data: Good[]) => {
-                this._selectedGoodIndex = -1;
-                this._goodList = data;
-                this._activePage = 1;
+                this.selectedGoodIndex = -1;
+                this.goodList = data;
+                this.activePage = 1;
                 this._selectedCategoryId = categoryId;
                 this._selectedCategoryName = categoryName;
             })

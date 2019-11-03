@@ -10,6 +10,8 @@ import { DataService } from '../../../services/data.service'
 
 export class CategoryBodyComponent implements OnInit {
     private _category: Category[];
+
+    public get category(): Category[] { return this._category;};
     private _prevSelectedCategoryId: string
 
     @Output() categoryWasSelected: EventEmitter<Category>;

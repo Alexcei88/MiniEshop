@@ -1,11 +1,11 @@
 <ngx-blade [config]="bladeConfig" #editGoodBlade>
     <div class="blade-header" ngxBladeHeader>
-        <blade-header style="width: 100%;" [bladeName]="_editableGood.name" [buttons]="_buttons">
+        <blade-header style="width: 100%;" [bladeName]="editableGood.name" [buttons]="buttons">
         </blade-header>
     </div>
     <div ngxBladeBody>
         <good-edit-body #goodeditbody
-            [editableGood]='_editableGood'
+            [editableGood]='editableGood'
             (formValueChanges)='onFormValueChanges($event)'>
         </good-edit-body>
     </div>

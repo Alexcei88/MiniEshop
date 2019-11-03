@@ -1,4 +1,6 @@
-﻿let serverUrl = "http://localhost:10000/";
+﻿import { environment } from '../environments/environment';
+
+let env = environment;
 
 
 export const createImagePath = (serverPath: string) => {
@@ -6,6 +8,6 @@ export const createImagePath = (serverPath: string) => {
         return 'assets/twitter-logo.png';
     }
     else{
-        return `${serverUrl}${serverPath}`;
+        return `${env.server}${serverPath}`;
     }
   }

@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 
 export class EditGoodBodyComponent implements OnInit {
 
-    private _good: Good = new Good('', '', 0.0, 1, null, null);
+    public good: Good = new Good('', '', 0.0, 1, null, null);
 
     @Output() formValueChanges: EventEmitter<any>;
 
@@ -20,7 +20,7 @@ export class EditGoodBodyComponent implements OnInit {
 
     @Input('editableGood') set setGood(value: Good) {
         if (value != undefined) {
-            this._good = value;
+            this.good = value;
             if (this._editGoodForm != undefined) {
                 // yourForm.reset(), yourForm.resetForm() don't work, but this does:
                 this._editGoodForm.form.markAsPristine();
@@ -36,7 +36,7 @@ export class EditGoodBodyComponent implements OnInit {
             this._editGoodForm = content;
             this._editGoodForm.valueChanges.subscribe(
                 result => {
-                    let good = (JSON.parse(JSON.stringify(this._good)));
+                    let good = (JSON.parse(JSON.stringify(this.good)));
                     good.imageUrl = result.imageUrl;
                     good.price = result.price;
                     good.qty = result.qty;
@@ -59,7 +59,7 @@ export class EditGoodBodyComponent implements OnInit {
     uploadFiles(event: any) {
         let files = event.target.files;
         this.dataService.uploadFile(files).subscribe((data: any) => {
-            this._good.imageUrl = data.dbPath;
+            this.good.imageUrl = data.dbPath;
             this.formValueChanges.emit(this._editGoodForm.valid);
         });
     }

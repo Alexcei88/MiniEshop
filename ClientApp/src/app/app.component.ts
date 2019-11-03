@@ -17,7 +17,7 @@ export class AppComponent {
   constructor(private changeDetector: ChangeDetectorRef, @Inject(DataService) private dataService: DataService) {
   }
 
-  private isVisibleGoodListBlade: boolean = false;
+  public isVisibleGoodListBlade: boolean = false;
 
   private goodListComponent: GoodListComponent;
   @ViewChild('goodlist', { static: false }) set goodListEl(goodListEl: GoodListComponent) {
@@ -26,7 +26,7 @@ export class AppComponent {
     }
   }
 
-  private isVisibleEditGoodBlade: boolean = false;
+  public isVisibleEditGoodBlade: boolean = false;
 
   private editGoodComponent: EditGoodComponent;
   @ViewChild('goodedit', { static: false }) set editGoodEl(editGoodEl: EditGoodComponent) {

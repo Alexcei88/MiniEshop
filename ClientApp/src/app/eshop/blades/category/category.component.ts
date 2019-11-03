@@ -13,7 +13,7 @@ import { NgxBladeComponent } from 'ngx-blade/esm5/src/app/modules/ngx-blade/ngx-
 export class CategoryComponent {
 
     @Output() categoryWasSelected: EventEmitter<Category>;
-    private _bladeName: string = "Категории";
+    public bladeName: string = "Категории";
 
     public bladeConfig: BladeConfig = {
         closeButton: false,

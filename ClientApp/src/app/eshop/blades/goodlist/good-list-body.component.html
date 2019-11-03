@@ -1,9 +1,9 @@
 <div class="d-flex flex-row justify-content-end align-items-center">
   <div class="p-2">
-    <label>{{ _PAGE_SIZE * (_activePage - 1) + _goodList.length}} of {{ _goodSize }}</label>
+    <label>{{ PAGE_SIZE * (activePage - 1) + goodList.length}} of {{ goodSize }}</label>
   </div>
   <div class="p-2 mr-4">
-    <ngb-pagination [page]="_activePage" [pageSize]="_PAGE_SIZE" [collectionSize]="_goodSize"
+    <ngb-pagination [page]="activePage" [pageSize]="PAGE_SIZE" [collectionSize]="goodSize"
       (pageChange)="onPageChange($event)">
     </ngb-pagination>
   </div>
@@ -19,8 +19,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr valign="center" *ngFor="let p of _goodList;index as i" (click)="onGoodWasSelected($event, i)"
-      [class.active]="i == _selectedGoodIndex">
+    <tr valign="center" *ngFor="let p of goodList;index as i" (click)="onGoodWasSelected($event, i)"
+      [class.active]="i == selectedGoodIndex">
       <td class="justify-content-center">
         <input type="checkbox" (change)="toogleGoodSelection($event, p.id)">
       </td>

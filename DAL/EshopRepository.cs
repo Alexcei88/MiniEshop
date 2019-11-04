@@ -85,5 +85,17 @@ namespace MiniEshop.DAL
         {
             return _eshopDbContext.Goods.Where(g => g.CategoryId == category).CountAsync();
         }
+
+        /// <summary>
+        /// Проверяет, есть ли товар с такой уже картинкой
+        /// </summary>
+        /// <param name="dbPath"></param>
+        /// <returns></returns>
+        public Task<bool> IsExistGoodWithImage(string dbPath)
+        {
+            return _eshopDbContext.Goods.AnyAsync(g => g.ImageUrl == dbPath);
+        }
+
+
     }
 }

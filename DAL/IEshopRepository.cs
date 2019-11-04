@@ -14,5 +14,12 @@ namespace MiniEshop.DAL
         Task<int> UpdateGoodAsync(Good good);
         Task<Good[]> DeleteGoodAsync(List<Guid> ids);
 
+        /// <summary>
+        /// Проверяет, есть ли товар с такой уже картинкой
+        /// </summary>
+        /// <param name="dbPath"></param>
+        /// <returns></returns>
+        Task<bool> IsExistGoodWithImage(string dbPath);
+
     }
 }

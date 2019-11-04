@@ -23,6 +23,9 @@ namespace MiniEshop.DAL
             modelBuilder.Entity<Good>()
                 .Property(p => p.Id)
                 .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Good>()
+                .HasIndex(g => g.ImageUrl);
         }
 
         public DbSet<Category> Categories { get; set; }

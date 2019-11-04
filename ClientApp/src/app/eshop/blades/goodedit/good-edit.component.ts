@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderButton } from '../../blades/blade-header.component'
 import { BladeConfig } from 'ngx-blade/esm5/ngx-blade';
 import { NgxBladeComponent } from 'ngx-blade/esm5/src/app/modules/ngx-blade/ngx-blade.component';
+import { EditGoodBodyComponent } from './good-edit-body.component'
 
 @Component({
     selector: 'good-edit-blade',
@@ -43,6 +44,13 @@ export class EditGoodComponent implements OnInit {
         if (blade !== undefined) {
             this._blade = blade;
             this._blade.onMaximize();
+        }
+    }
+
+    private bodyComponent: EditGoodBodyComponent;
+    @ViewChild('body', { static: false }) set _body(body: EditGoodBodyComponent) {
+        if (body !== undefined) {
+            this.bodyComponent = body;
         }
     }
 
@@ -128,6 +136,9 @@ export class EditGoodComponent implements OnInit {
 
     resetChanges() {
         this._editableGood = (JSON.parse(JSON.stringify(this._primaryGood)));
+        if(this.bodyComponent != undefined) {
+            this.bodyComponent.resetImage();
+        }
     }
 
     openConfirmResetModal(newGood: Good) {
@@ -140,6 +151,7 @@ export class EditGoodComponent implements OnInit {
                 });
             }
             else {
+                this.resetChanges();
                 this._primaryGood = newGood;
                 this._editableGood = (JSON.parse(JSON.stringify(newGood)));
             }

@@ -52,5 +52,10 @@ export class DataService {
     
         return this.http.post(this.uploadurl, formData);
       }
+
+    deleteFile(filePath: string) {
+        const params = new HttpParams().set('dbPath', filePath);
+        return this.http.delete(this.uploadurl, { params});
+    }
     
 }

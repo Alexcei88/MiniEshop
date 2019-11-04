@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using MiniEshop.DAL;
 using MiniEshop.Domain;
 using MiniEshop.Domain.DTO;
+using MiniEshop.Services;
 using System;
 using System.IO;
 
@@ -35,7 +36,7 @@ namespace MiniEshop
             services.AddDbContext<EshopDbContext>(options => options.UseSqlServer(connectionString));
             ApplyMigration(connectionString);
 
-            // поскольку у нас только одна сущность для меппинга, файл профайла опускаю
+            // поскольку у нас только одна сущность для маппинга, файл профайла опускаю
             services.AddAutoMapper(c => c.CreateMap<GoodDTO, Good>()
                                         .ForMember(g => g.Id, member => member.MapFrom(s => s.Id ?? Guid.Empty))
                                         .ForMember(g => g.Category, member => member.Ignore())
@@ -43,6 +44,7 @@ namespace MiniEshop
                                         AppDomain.CurrentDomain.GetAssemblies(), ServiceLifetime.Singleton);
 
             services.AddScoped<IEshopRepository, EshopRepository>();
+            services.AddScoped<IFileService, FileService>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -68,7 +70,7 @@ namespace MiniEshop
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"StaticFiles")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles")),
                 RequestPath = new PathString("/StaticFiles")
             });
 

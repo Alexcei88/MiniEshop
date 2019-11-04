@@ -14,6 +14,8 @@ export class EditGoodBodyComponent implements OnInit {
 
     public good: Good = new Good('', '', 0.0, 1, null, null);
 
+    private isLastLoadingImageIsNewOnServer: boolean = false;
+
     @Output() formValueChanges: EventEmitter<any>;
 
     ngOnInit() { }
@@ -60,12 +62,19 @@ export class EditGoodBodyComponent implements OnInit {
         let files = event.target.files;
         this.dataService.uploadFile(files).subscribe((data: any) => {
             this.good.imageUrl = data.dbPath;
+            this.isLastLoadingImageIsNewOnServer = data.newImage;
             this.formValueChanges.emit(this._editGoodForm.valid);
         });
     }
 
     createImgPath = (serverPath: string) => {
         return createImagePath(serverPath);
+    }
+
+    resetImage() {
+        if(this.isLastLoadingImageIsNewOnServer) {
+            this.dataService.deleteFile(this.good.imageUrl).subscribe(g => {});
+        }
     }
 
 }

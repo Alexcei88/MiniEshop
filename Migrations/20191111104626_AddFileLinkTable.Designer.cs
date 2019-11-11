@@ -11,8 +11,8 @@ using MiniEshop.DAL;
 namespace MiniEshop.Migrations
 {
     [DbContext(typeof(MiniEshopDbContext))]
-    [Migration("20191104064144_AddIndexToGoodTableImageUrlField")]
-    partial class AddIndexToGoodTableImageUrlField
+    [Migration("20191111104626_AddFileLinkTable")]
+    partial class AddFileLinkTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,22 @@ namespace MiniEshop.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("MiniEshop.Domain.FileLink", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FileUrl")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileUrl");
+
+                    b.ToTable("FileLinks");
+                });
+
             modelBuilder.Entity("MiniEshop.Domain.Good", b =>
                 {
                     b.Property<Guid>("Id")
@@ -52,8 +68,11 @@ namespace MiniEshop.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid?>("FileLinkId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ImageUrlId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -69,7 +88,9 @@ namespace MiniEshop.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("ImageUrl");
+                    b.HasIndex("FileLinkId")
+                        .IsUnique()
+                        .HasFilter("[FileLinkId] IS NOT NULL");
 
                     b.ToTable("Goods");
                 });
@@ -81,6 +102,11 @@ namespace MiniEshop.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("MiniEshop.Domain.FileLink", "FileLink")
+                        .WithOne()
+                        .HasForeignKey("MiniEshop.Domain.Good", "FileLinkId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 #pragma warning restore 612, 618
         }

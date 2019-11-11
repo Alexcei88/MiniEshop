@@ -23,9 +23,13 @@ namespace MiniEshop.Domain
         [Required]
         public int Qty { get; set; }
 
+        [Required]
         public Guid CategoryId { get; set; }
 
-        public string ImageUrl { get; set; }
+        public Guid? ImageUrlId { get; set; }
+
+        [ForeignKey("ImageUrlId")]
+        public FileLink FileLink { get; set; }
 
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }

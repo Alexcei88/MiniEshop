@@ -10,16 +10,8 @@ namespace MiniEshop.DAL
         Task<(List<Category> categories, Category root)> GetCategoriesAsync();
         Task<Good[]> GetGoodsAsync(Guid categoryId, int skip, int limit);
         Task<int> GetGoodCountAsync(Guid categoryId);
-        Task<int> CreateGoodAsync(Good good);
-        Task<int> UpdateGoodAsync(Good good);
+        Task<Good> CreateGoodAsync(Good good);
+        Task<Good> UpdateGoodAsync(Good good);
         Task<Good[]> DeleteGoodAsync(List<Guid> ids);
-
-        /// <summary>
-        /// Проверяет, есть ли товар с такой уже картинкой
-        /// </summary>
-        /// <param name="dbPath"></param>
-        /// <returns></returns>
-        Task<bool> IsExistGoodWithImage(string dbPath);
-
     }
 }

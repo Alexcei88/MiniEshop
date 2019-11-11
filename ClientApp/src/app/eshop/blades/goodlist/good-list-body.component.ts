@@ -102,7 +102,6 @@ export class GoodListBodyComponent {
             .subscribe((data: Good[]) => {
                 this.selectedGoodIndex = -1;
                 this.goodList = data;
-                this.activePage = 1;
                 this._selectedCategoryId = categoryId;
                 this._selectedCategoryName = categoryName;
             })

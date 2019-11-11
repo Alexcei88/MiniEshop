@@ -9,7 +9,7 @@ using MiniEshop.DAL;
 
 namespace MiniEshop.Migrations
 {
-    [DbContext(typeof(EshopDbContext))]
+    [DbContext(typeof(MiniEshopDbContext))]
     partial class EshopDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -41,6 +41,22 @@ namespace MiniEshop.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("MiniEshop.Domain.FileLink", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FileUrl")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileUrl");
+
+                    b.ToTable("FileLinks");
+                });
+
             modelBuilder.Entity("MiniEshop.Domain.Good", b =>
                 {
                     b.Property<Guid>("Id")
@@ -50,8 +66,8 @@ namespace MiniEshop.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("ImageUrlId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -67,7 +83,8 @@ namespace MiniEshop.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("ImageUrl");
+                    b.HasIndex("ImageUrlId")
+                        .IsUnique();
 
                     b.ToTable("Goods");
                 });
@@ -78,6 +95,12 @@ namespace MiniEshop.Migrations
                         .WithMany("Goods")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MiniEshop.Domain.FileLink", "FileLink")
+                        .WithOne()
+                        .HasForeignKey("MiniEshop.Domain.Good", "ImageUrlId")
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

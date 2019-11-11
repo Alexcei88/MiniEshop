@@ -14,9 +14,9 @@ namespace MiniEshop.DAL
     public class EshopRepository
         : IEshopRepository
     {
-        private readonly EshopDbContext _eshopDbContext;
+        private readonly MiniEshopDbContext _eshopDbContext;
 
-        public EshopRepository(EshopDbContext eshopDbContext)
+        public EshopRepository(MiniEshopDbContext eshopDbContext)
         {
             _eshopDbContext = eshopDbContext;
         }
@@ -54,6 +54,7 @@ namespace MiniEshop.DAL
         public Task<Good[]> GetGoodsAsync(Guid category, int skip, int size)
         {
             return _eshopDbContext.Goods
+                .Include(g => g.FileLink)
                 .Where(g => g.CategoryId == category)
                 .OrderBy(g => g.Id)
                 .Skip(skip)
@@ -61,16 +62,21 @@ namespace MiniEshop.DAL
                 .ToArrayAsync();
         }
 
-        public Task<int> CreateGoodAsync(Good good)
+        public async Task<Good> CreateGoodAsync(Good good)
         {
+            var fileLink = good.FileLink;
+            good.FileLink = null; // we must not add navigation property
             _eshopDbContext.Goods.Add(good);
-            return _eshopDbContext.SaveChangesAsync();
+            await _eshopDbContext.SaveChangesAsync();
+            good.FileLink = fileLink;
+            return good;
         }
 
-        public Task<int> UpdateGoodAsync(Good good)
+        public async Task<Good> UpdateGoodAsync(Good good)
         {
             _eshopDbContext.Update(good);
-            return _eshopDbContext.SaveChangesAsync();
+            await _eshopDbContext.SaveChangesAsync();
+            return good;
         }
 
         public async Task<Good[]> DeleteGoodAsync(List<Guid> ids)
@@ -85,17 +91,5 @@ namespace MiniEshop.DAL
         {
             return _eshopDbContext.Goods.Where(g => g.CategoryId == category).CountAsync();
         }
-
-        /// <summary>
-        /// Проверяет, есть ли товар с такой уже картинкой
-        /// </summary>
-        /// <param name="dbPath"></param>
-        /// <returns></returns>
-        public Task<bool> IsExistGoodWithImage(string dbPath)
-        {
-            return _eshopDbContext.Goods.AnyAsync(g => g.ImageUrl == dbPath);
-        }
-
-
     }
 }

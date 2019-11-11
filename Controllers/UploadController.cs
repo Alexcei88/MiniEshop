@@ -1,12 +1,9 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using MiniEshop.DAL;
+using MiniEshop.Domain.DTO;
 using MiniEshop.Services;
 
 namespace UploadFilesServer.Controllers
@@ -18,9 +15,13 @@ namespace UploadFilesServer.Controllers
     {
         private readonly IFileService _fileService;
 
-        public UploadController(IFileService fileService)
+        private readonly IMapper _mapper;
+
+        public UploadController(IFileService fileService,
+             IMapper mapper)
         {
             _fileService = fileService;
+            _mapper = mapper;
         }
 
         [HttpPost, DisableRequestSizeLimit]
@@ -35,7 +36,7 @@ namespace UploadFilesServer.Controllers
                     var savingImages = await _fileService.UploadImageAsync(file.OpenReadStream()
                         , ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"'));
 
-                    return Ok(new { dbPath = savingImages.path, newImage = savingImages.isNewImage });
+                    return Ok(_mapper.Map<FileLinkDTO>(savingImages));
                 }
                 else
                 {
@@ -49,9 +50,9 @@ namespace UploadFilesServer.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromQuery]string dbPath)
+        public async Task<IActionResult> Delete([FromQuery]Guid id)
         {
-            string deletedPath = _fileService.DeleteImage(dbPath);
+            string deletedPath = await _fileService.DeleteImageAsync(id);
             return Ok(new { deletedPath });
         }
     }

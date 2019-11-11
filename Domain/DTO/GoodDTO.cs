@@ -22,8 +22,7 @@ namespace MiniEshop.Domain.DTO
         [Range(0, int.MaxValue)]
         public int Qty { get; set; }
 
-        [Required]
-        public string ImageUrl { get; set; }
+        public FileLinkDTO FileLink { get; set; }
 
         [Required]
         public Guid CategoryId { get; set; }

@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using MiniEshop.Domain;
+using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace MiniEshop.Services
@@ -15,8 +17,10 @@ namespace MiniEshop.Services
     /// </summary>
     public interface IFileService
     {
-        Task<(string path, bool isNewImage)> UploadImageAsync(Stream stream, string sourceFileName);
+        Task<FileLink> UploadImageAsync(Stream stream, string sourceFileName);
 
-        string DeleteImage(string dbPath);
+        Task<string> GetImagePathAsync(Guid id);
+
+        Task<string> DeleteImageAsync(Guid id);
     }
 }

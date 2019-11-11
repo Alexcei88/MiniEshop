@@ -50,13 +50,7 @@ namespace MiniEshop.Controllers
             if (ModelState.IsValid)
             {
                 Good g = _mapper.Map<Good>(good);
-                int countUpdate = await _repository.CreateGoodAsync(g);
-                if (countUpdate == 1)
-                {
-                    return Ok(good);
-                }
-                else
-                    return BadRequest("It is failed to add the good to db");
+                return Ok(_mapper.Map<GoodDTO>(await _repository.CreateGoodAsync(g)));
             }
             return BadRequest(ModelState);
         }
@@ -67,13 +61,7 @@ namespace MiniEshop.Controllers
             if (ModelState.IsValid)
             {
                 Good g = _mapper.Map<Good>(good);
-                int countUpdate = await _repository.UpdateGoodAsync(g);
-                if (countUpdate == 1)
-                {
-                    return Ok(good);
-                }
-                else
-                    return BadRequest("It is failed to update the current good");
+                return Ok(_mapper.Map<GoodDTO>(await _repository.UpdateGoodAsync(g)));
             }
             return BadRequest(ModelState);
         }

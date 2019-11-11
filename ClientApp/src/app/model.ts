@@ -4,9 +4,12 @@ export class Good {
         public name: string,
         public price: number,
         public qty: number,
-        public imageUrl: string,
+        public fileLink: FileLink,
         public categoryId: string
-    ) { }
+    ) { 
+        if(fileLink == null)
+            this.fileLink = new FileLink(null, null);
+    }
 }
 
 export class Category {
@@ -14,5 +17,12 @@ export class Category {
         public id: string,
         public name: string,
         public childs: Category[]
+    ) {}
+}
+
+export class FileLink {
+    constructor(
+        public id: string,
+        public fileUrl: string,
     ) {}
 }

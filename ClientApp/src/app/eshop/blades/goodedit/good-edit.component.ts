@@ -1,6 +1,6 @@
 import { Component, Inject, EventEmitter, OnInit, Input, Output, ElementRef, ViewChild } from '@angular/core';
 import { DataService } from '../../../services/data.service'
-import { Good } from '../../../model';
+import { Good, FileLink } from '../../../model';
 import { EditGoodResetModalContent } from './good-edit-resetmodal.component'
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -58,7 +58,7 @@ export class EditGoodComponent implements OnInit {
         private modalService: NgbModal) {
         this.goodWasUpdated = new EventEmitter<Good>();
         this.goodWasCreated = new EventEmitter<Good>();
-        this._editableGood = new Good(null, "", 0.0, 0, null, null);
+        this._editableGood = new Good(null, "", 0.0, 0, new FileLink(null, null), null);
         this._primaryGood = this._editableGood;
     }
 
@@ -93,17 +93,18 @@ export class EditGoodComponent implements OnInit {
             this._blade.close();
         }
     }
-    sendGoodToSave(): Observable<any> {
+    sendGoodToSave() {
         if (this._isValidForm) {
             if (this._editableGood.id != null) {
                 // обновление
-                return this.dataService.updateProduct(this._editableGood).pipe(
-                    map((data: Good) => {
+                return this.dataService.updateProduct(this._editableGood).subscribe(
+                    (data: Good) => {
                         this._primaryGood = data;
+                        this._editableGood = (JSON.parse(JSON.stringify(data)))  
                         this.goodWasUpdated.emit(this._primaryGood);
                         this._isEnabledSaveButton = false;
                         this._isEnabledCancelButton = false;
-                    })
+                    }
                 );
             }
             else {
@@ -111,6 +112,7 @@ export class EditGoodComponent implements OnInit {
                 return this.dataService.createProduct(this._editableGood).pipe(
                     map((data: Good) => {
                         this._primaryGood = data;
+                        this._editableGood = (JSON.parse(JSON.stringify(data)))  
                         this._isEnabledSaveButton = false;
                         this._isEnabledCancelButton = false;
                         this.goodWasCreated.emit(this._primaryGood);
@@ -135,20 +137,14 @@ export class EditGoodComponent implements OnInit {
     }
 
     resetChanges() {
-        this._editableGood = (JSON.parse(JSON.stringify(this._primaryGood)));
-        if(this.bodyComponent != undefined) {
-            this.bodyComponent.resetImage();
-        }
+        this._editableGood = (JSON.parse(JSON.stringify(this._primaryGood)));       
     }
 
     openConfirmResetModal(newGood: Good) {
         const modalRef = this.modalService.open(EditGoodResetModalContent, { backdrop: "static" });
         modalRef.result.then((userResponse) => {
             if (userResponse == 'save') {
-                this.sendGoodToSave().subscribe(g => {
-                    this._primaryGood = newGood;
-                    this._editableGood = (JSON.parse(JSON.stringify(newGood)))
-                });
+                this.sendGoodToSave();
             }
             else {
                 this.resetChanges();

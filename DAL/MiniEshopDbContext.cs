@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace MiniEshop.DAL
 {
-    public class EshopDbContext
+    public class MiniEshopDbContext
         : DbContext
     {
-        public EshopDbContext(DbContextOptions<EshopDbContext> option)
+        public MiniEshopDbContext(DbContextOptions<MiniEshopDbContext> option)
             : base(option)
         { }
 
@@ -24,13 +24,22 @@ namespace MiniEshop.DAL
                 .Property(p => p.Id)
                 .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<FileLink>()
+                .Property(p => p.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<FileLink>()
+                .HasIndex(g => g.FileUrl);
+
             modelBuilder.Entity<Good>()
-                .HasIndex(g => g.ImageUrl);
+                .HasOne(a => a.FileLink).WithOne().OnDelete(DeleteBehavior.SetNull);
         }
 
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Good> Goods { get; set; }
+
+        public DbSet<FileLink> FileLinks { get; set; }
 
     }
 }

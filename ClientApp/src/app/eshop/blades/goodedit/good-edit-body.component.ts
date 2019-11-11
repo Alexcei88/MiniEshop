@@ -1,6 +1,8 @@
 import { Component, Inject, EventEmitter, OnInit, Input, Output, ElementRef, ViewChild } from '@angular/core';
 import { DataService } from '../../../services/data.service'
 import { Good } from '../../../model';
+import { FileLink } from '../../../model';
+
 import { createImagePath } from '../../../common'
 import { NgForm } from '@angular/forms';
 
@@ -12,9 +14,7 @@ import { NgForm } from '@angular/forms';
 
 export class EditGoodBodyComponent implements OnInit {
 
-    public good: Good = new Good('', '', 0.0, 1, null, null);
-
-    private isLastLoadingImageIsNewOnServer: boolean = false;
+    public good: Good = new Good('', '', 0.0, 1, new FileLink(null, null), null);
 
     @Output() formValueChanges: EventEmitter<any>;
 
@@ -39,7 +39,7 @@ export class EditGoodBodyComponent implements OnInit {
             this._editGoodForm.valueChanges.subscribe(
                 result => {
                     let good = (JSON.parse(JSON.stringify(this.good)));
-                    good.imageUrl = result.imageUrl;
+                    good.fileLink.fileUrl = result.imageUrl;
                     good.price = result.price;
                     good.qty = result.qty;
                     good.name = result.name;
@@ -60,22 +60,14 @@ export class EditGoodBodyComponent implements OnInit {
 
     uploadFiles(event: any) {
         let files = event.target.files;
-        this.dataService.uploadFile(files).subscribe((data: any) => {
-            this.good.imageUrl = data.dbPath;
-            this.isLastLoadingImageIsNewOnServer = data.newImage;
+        this.dataService.uploadFile(files).subscribe((data: FileLink) => {
+            this.good.fileLink = data;
             this.formValueChanges.emit(this._editGoodForm.valid);
         });
     }
 
     createImgPath = (serverPath: string) => {
         return createImagePath(serverPath);
-    }
-
-    resetImage() {
-        if(this.isLastLoadingImageIsNewOnServer) {
-            this.dataService.deleteFile(this.good.imageUrl).subscribe(g => {});
-        }
-    }
-
+    } 
 }
 

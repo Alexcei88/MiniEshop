@@ -33,17 +33,14 @@ namespace MiniEshop
             services.AddControllersWithViews();
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<EshopDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<MiniEshopDbContext>(options => options.UseSqlServer(connectionString));
             ApplyMigration(connectionString);
 
             // поскольку у нас только одна сущность для маппинга, файл профайла опускаю
-            services.AddAutoMapper(c => c.CreateMap<GoodDTO, Good>()
-                                        .ForMember(g => g.Id, member => member.MapFrom(s => s.Id ?? Guid.Empty))
-                                        .ForMember(g => g.Category, member => member.Ignore())
-                                        .ReverseMap(),
-                                        AppDomain.CurrentDomain.GetAssemblies(), ServiceLifetime.Singleton);
+            services.AddAutoMapper(c => { }, AppDomain.CurrentDomain.GetAssemblies(), ServiceLifetime.Singleton);
 
             services.AddScoped<IEshopRepository, EshopRepository>();
+            services.AddScoped<IFileServiceRepository, FileServiceRepository>();
             services.AddScoped<IFileService, FileService>();
 
             // In production, the Angular files will be served from this directory
@@ -54,8 +51,13 @@ namespace MiniEshop
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app
+            , IWebHostEnvironment env
+            , IMapper mapper)
         {
+
+            mapper.ConfigurationProvider.AssertConfigurationIsValid();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -109,10 +111,10 @@ namespace MiniEshop
         /// <param name="connectionString"></param>
         private void ApplyMigration(string connectionString)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<EshopDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<MiniEshopDbContext>();
             optionsBuilder.UseSqlServer(connectionString);
 
-            using (var context = new EshopDbContext(optionsBuilder.Options))
+            using (var context = new MiniEshopDbContext(optionsBuilder.Options))
             {
                 context.Database.Migrate();
             }

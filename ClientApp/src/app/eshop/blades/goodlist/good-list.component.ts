@@ -1,6 +1,6 @@
 import { Component, Inject, EventEmitter, Output, Input, ViewChild } from '@angular/core';
 import { DataService } from '../../../services/data.service'
-import { Good, Category } from '../../../model';
+import { Good, Category, FileLink } from '../../../model';
 import { BehaviorSubject } from 'rxjs'
 import { GoodListConfirmDeleteModalContent } from './good-list-confirmdeletemodal.component'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -73,7 +73,7 @@ export class GoodListComponent {
     }
 
     createGood(): void {
-        var good = new Good(null, 'Новый товар', 0.0, 1, null, this.bodyComponent.selectedCategoryId());
+        var good = new Good(null, 'Новый товар', 0.0, 1, new FileLink(null, null), this.bodyComponent.selectedCategoryId());
         this.onGoodWasSelected(good);
     }
 

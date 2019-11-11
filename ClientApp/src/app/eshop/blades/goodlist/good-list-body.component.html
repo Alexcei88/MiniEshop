@@ -25,7 +25,7 @@
         <input type="checkbox" (change)="toogleGoodSelection($event, p.id)">
       </td>
       <td>
-        <img id="image" class="good-image-preview img-thumbnail" [src]="createImgPath(p.imageUrl)">
+        <img id="image" class="good-image-preview img-thumbnail" [src]="createImgPath(p.fileLink.fileUrl)">
         {{ p.name}}
       </td>
       <td>{{ p.price }} USD</td>

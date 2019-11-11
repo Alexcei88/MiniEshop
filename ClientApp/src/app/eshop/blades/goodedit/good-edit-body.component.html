@@ -4,10 +4,10 @@
         <div class="col">
             <div class="d-flex flex-row bd-highlight mb-3 align-items-end">
                 <div class="p-2 bd-highlight">
-                    <img id="image" class="good-image img-thumbnail" [src]="createImgPath(good.imageUrl)">
+                    <img id="image" class="good-image img-thumbnail" [src]="createImgPath(good.fileLink.fileUrl)">
                     <input type="file" class="form-control" id="file_input_id" style="display: none;" ngf-select=""
                         name="file" ngf-accept="'image/*'" (change)="uploadFiles($event)" (click)="reset()" #inputFile>
-                    <input id="imageUrl" name="imageUrl" type="hidden" [(ngModel)]="good.imageUrl" #imageUrl="ngModel"
+                    <input id="imageUrl" name="imageUrl" type="hidden" [(ngModel)]="good.fileLink.fileUrl" #imageUrl="ngModel"
                         required>
                     <small id="imageHelp" class="form-text text-muted ">Обязательно к заполнению</small>
                 </div>

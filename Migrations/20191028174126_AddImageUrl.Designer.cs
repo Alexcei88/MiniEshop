@@ -10,7 +10,7 @@ using MiniEshop.DAL;
 
 namespace MiniEshop.Migrations
 {
-    [DbContext(typeof(EshopDbContext))]
+    [DbContext(typeof(MiniEshopDbContext))]
     [Migration("20191028174126_AddImageUrl")]
     partial class AddImageUrl
     {

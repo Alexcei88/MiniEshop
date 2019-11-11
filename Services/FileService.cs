@@ -80,7 +80,7 @@ namespace MiniEshop.Services
 
         public async Task<string> GetImagePathAsync(Guid id)
         {
-            return (await _fileRepository.GetFileLink(id))?.FileUrl;
+            return (await _fileRepository.GetFileLinkAsync(id))?.FileUrl;
         }
     }
 }

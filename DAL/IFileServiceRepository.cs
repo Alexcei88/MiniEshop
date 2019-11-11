@@ -10,7 +10,7 @@ namespace MiniEshop.DAL
     {
         Task<FileLink> SaveFileAsync(string dbPath);
 
-        Task<FileLink> GetFileLink(Guid id);
+        Task<FileLink> GetFileLinkAsync(Guid id);
 
         Task<FileLink> DeleteFileAsync(Guid id);
 

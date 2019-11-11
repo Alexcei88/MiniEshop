@@ -19,7 +19,7 @@ namespace MiniEshop.DAL
 
         public async Task<FileLink> DeleteFileAsync(Guid id)
         {
-            var link = await GetFileLink(id);
+            var link = await GetFileLinkAsync(id);
             if (link != null)
             {
                 _eshopDbContext.FileLinks.Remove(link);
@@ -29,7 +29,7 @@ namespace MiniEshop.DAL
             return null;
         }
 
-        public Task<FileLink> GetFileLink(Guid id)
+        public Task<FileLink> GetFileLinkAsync(Guid id)
         {
             return _eshopDbContext.FileLinks.FirstOrDefaultAsync(g => g.Id == id);
         }
